@@ -16,6 +16,11 @@ public class Main extends Application {
         //scene.getStylesheets().add(Main.class.getResource("resources/bootstrap3.css").toExternalForm());
         primaryStage.setScene(scene);
         primaryStage.show();
+        /*
+        String regex = "krz_[1-5]";
+        boolean isMatch = "krz_51".matches(regex);
+        System.out.println(isMatch);
+         */
     }
 
 

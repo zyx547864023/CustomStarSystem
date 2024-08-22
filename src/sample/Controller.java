@@ -466,7 +466,7 @@ public class Controller {
         marketPane.getItems().add(start);
         //factionId势力
         TextField factionId = new TextField();
-        factionId.setPromptText("请输入势力ID 参考值【cmc】");
+        factionId.setPromptText("请输入势力ID 参考值【cmc】 不填就是未探索星球");
         factionId.setId("factionId");
         marketPane.getItems().add(factionId);
         //connectedEntities关联对象
@@ -2004,6 +2004,7 @@ public class Controller {
                                             else if (childPlanetNode instanceof SplitPane) {
                                                 //市场
                                                 JSONObject market = new JSONObject();
+                                                JSONArray industryJSONArray = new JSONArray();
                                                 SplitPane marketPane = (SplitPane)childPlanetNode;
                                                 for (Node marketNode:marketPane.getItems()) {
                                                     if (marketNode instanceof TextField) {
@@ -2030,7 +2031,33 @@ public class Controller {
                                                         CheckBox checkBox = (CheckBox) marketNode;
                                                         market.put(checkBox.getId(), checkBox.isSelected());
                                                     }
+                                                    else if (marketNode instanceof SplitPane) {
+                                                        SplitPane marketInPane = (SplitPane)marketNode;
+                                                        if (industryPaneList.contains(marketInPane)) {
+                                                            JSONObject industry = new JSONObject();
+                                                            for (Node marketInNode : marketInPane.getItems()) {
+                                                                if (marketInNode instanceof ComboBox) {
+                                                                    ComboBox comboBox = (ComboBox) marketInNode;
+                                                                    industry.put(comboBox.getId(), comboBox.getValue());
+                                                                }
+                                                            }
+                                                            industryJSONArray.put(industry);
+                                                        }
+                                                        else {
+                                                            //基本选项
+                                                            for (Node marketInNode : marketInPane.getItems()) {
+                                                                if (marketInNode instanceof CheckBox) {
+                                                                    CheckBox checkBox = (CheckBox) marketInNode;
+                                                                    market.put(checkBox.getId(), checkBox.isSelected());
+                                                                } else if (marketInNode instanceof ComboBox) {
+                                                                    ComboBox comboBox = (ComboBox) marketInNode;
+                                                                    market.put(comboBox.getId(), comboBox.getValue());
+                                                                }
+                                                            }
+                                                        }
+                                                    }
                                                 }
+                                                market.put("industry",industryJSONArray);
                                                 childPlanet.put("market",market);
                                             }
                                         }
@@ -2039,6 +2066,7 @@ public class Controller {
                                     else if (marketPaneList.contains(planetInPane)) {
                                         //市场
                                         JSONObject market = new JSONObject();
+                                        JSONArray industryJSONArray = new JSONArray();
                                         SplitPane marketPane = planetInPane;
                                         for (Node marketNode:marketPane.getItems()) {
                                             if (marketNode instanceof TextField) {
@@ -2049,15 +2077,27 @@ public class Controller {
                                                 market.put(comboBox.getId(), comboBox.getValue());
                                             }
                                             else if (marketNode instanceof SplitPane) {
-                                                SplitPane marketChildPane = (SplitPane)marketNode;
-                                                for (Node marketChildNode:marketChildPane.getItems()) {
-                                                    if (marketChildNode instanceof CheckBox) {
-                                                        CheckBox checkBox = (CheckBox) marketChildNode;
-                                                        market.put(checkBox.getId(), checkBox.isSelected());
+                                                SplitPane marketInPane = (SplitPane)marketNode;
+                                                if (industryPaneList.contains(marketInPane)) {
+                                                    JSONObject industry = new JSONObject();
+                                                    for (Node marketInNode : marketInPane.getItems()) {
+                                                        if (marketInNode instanceof ComboBox) {
+                                                            ComboBox comboBox = (ComboBox) marketInNode;
+                                                            industry.put(comboBox.getId(), comboBox.getValue());
+                                                        }
                                                     }
-                                                    else if (marketChildNode instanceof ComboBox) {
-                                                        ComboBox comboBox = (ComboBox) marketChildNode;
-                                                        market.put(comboBox.getId(), comboBox.getValue());
+                                                    industryJSONArray.put(industry);
+                                                }
+                                                else {
+                                                    //基本选项
+                                                    for (Node marketInNode : marketInPane.getItems()) {
+                                                        if (marketInNode instanceof CheckBox) {
+                                                            CheckBox checkBox = (CheckBox) marketInNode;
+                                                            market.put(checkBox.getId(), checkBox.isSelected());
+                                                        } else if (marketInNode instanceof ComboBox) {
+                                                            ComboBox comboBox = (ComboBox) marketInNode;
+                                                            market.put(comboBox.getId(), comboBox.getValue());
+                                                        }
                                                     }
                                                 }
                                             }
@@ -2066,6 +2106,7 @@ public class Controller {
                                                 market.put(checkBox.getId(), checkBox.isSelected());
                                             }
                                         }
+                                        market.put("industry",industryJSONArray);
                                         planet.put("market",market);
                                     }
                                     planet.put("planet",childPlanetJSONArray);
@@ -2297,7 +2338,8 @@ public class Controller {
                 // 处理文件内容
                 System.out.println(new String(fileContent));
                 try {
-                    JSONObject starSystemJSONObject = new JSONObject(new String(fileContent));
+                    Charset encoding = Charset.forName("UTF-8");
+                    JSONObject starSystemJSONObject = new JSONObject(new String(fileContent,encoding));
                     //星系
                     if (!starSystemJSONObject.isNull("star")){
                         JSONArray starJSONArray = starSystemJSONObject.getJSONArray("star");
