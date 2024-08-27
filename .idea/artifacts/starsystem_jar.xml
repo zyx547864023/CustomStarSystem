@@ -6,7 +6,7 @@
         <element id="file-copy" path="$PROJECT_DIR$/src/sample/META-INF/MANIFEST.MF" />
       </element>
       <element id="module-output" name="starsystem" />
-      <element id="extracted-dir" path="F:/F盘/MyEclipseWorkspaces/工作平台/SOCSP_O/webapps/SOCSP_O/WEB-INF/lib/json.jar" path-in-jar="/" />
+      <element id="extracted-dir" path="D:/聊天记录记录相关移动/QQ/SOCSP_SW/SOCSP_SW/WebRoot/WEB-INF/lib/json.jar" path-in-jar="/" />
     </root>
   </artifact>
 </component>

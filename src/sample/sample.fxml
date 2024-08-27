@@ -74,6 +74,7 @@
                   <TextField promptText="星系名称 参考值【Peach Garden】" fx:id="name"/>
                   <TextField promptText="星系位置X 参考值【-14200】" fx:id="x"/>
                   <TextField promptText="星系位置Y 参考值【-14200】" fx:id="y"/>
+                  <ComboBox promptText="星系类型" fx:id="starSystemType" />
                   <TextField promptText="背景图片路径 参考值【graphics/backgrounds/background6.jpg】" fx:id="backgroundTextureFilename"/>
                   <TextField promptText="光照颜色 参考值【255, 185, 50】" fx:id="lightColor"/>
                   <CheckBox fx:id="generateEntrancesAtGasGiants" text="气态巨行星跳跃点" />
@@ -86,6 +87,11 @@
                         <ComboBox fx:id="starType" promptText="主星类型"/>
                         <TextField fx:id="radius" promptText="范围 参考值【600】" />
                         <TextField fx:id="coronaSize" promptText="日冕范围 参考值【350】" />
+                        <TextField fx:id="jumpPointId" promptText="请输入跳跃点ID 参考值【ragnar_jump】" />
+                        <TextField fx:id="jumpPointName" promptText="请输入跳跃点名称 参考值【Ragnar Jump-point】" />
+                        <TextField fx:id="jumpPointAngle" promptText="请输入跳跃点轨道半径 参考值【180】" />
+                        <TextField fx:id="jumpPointOrbitRadius" promptText="请输入跳跃点轨道半径 参考值【2400】" />
+                        <TextField fx:id="jumpPointOrbitDays" promptText="请输入跳跃点名称 参考值【45】" />
                         <Button fx:id="firstAddPlanet" mnemonicParsing="false" onAction="#addPlanet" text="为主星添加一颗星球" />
                         <Text fx:id="firstEnd" text="主星0结束" />
                         <Separator fx:id="firstBottom" prefWidth="200.0" style="-fx-background-color: YELLOW;" />

@@ -42,6 +42,8 @@ public class Controller {
     @FXML
     private TextField name;
     @FXML
+    ComboBox starSystemType;
+    @FXML
     private Button addStar;
     @FXML
     private Button addCustomEntity;
@@ -63,6 +65,8 @@ public class Controller {
     TextField starRadius;
     @FXML
     TextField starCoronaSize;
+    @FXML
+    TextField jumpPointOrbitRadius;
     @FXML
     Button firstAddPlanet;
     @FXML
@@ -150,13 +154,76 @@ public class Controller {
                 //主星范围
                 TextField starRadius = new TextField();
                 starRadius.setPromptText("请输入主星范围 参考值【600】");
-                starRadius.setId("starRadius");
+                starRadius.setId("radius");
                 starPane.getItems().add(starRadius);
                 //日冕范围
                 TextField starCoronaSize = new TextField();
                 starCoronaSize.setPromptText("请输入日冕范围 参考值【350】");
-                starCoronaSize.setId("starCoronaSize");
+                starCoronaSize.setId("coronaSize");
                 starPane.getItems().add(starCoronaSize);
+                //主星角度
+                TextField angle = new TextField();
+                angle.setPromptText("请输入主星角度 参考值【90】");
+                angle.setId("angle");
+                starPane.getItems().add(angle);
+                //轨道半径
+                TextField orbitRadius = new TextField();
+                orbitRadius.setPromptText("请输入主星轨道半径 参考值【1000】");
+                orbitRadius.setId("orbitRadius");
+                starPane.getItems().add(orbitRadius);
+                //轨道天数
+                TextField orbitDay = new TextField();
+                orbitDay.setPromptText("请输入主星轨道天数 参考值【30】");
+                orbitDay.setId("orbitDay");
+                starPane.getItems().add(orbitDay);
+                //跳跃点ID
+                TextField jumpPointId = new TextField();
+                jumpPointId.setPromptText("请输入跳跃点ID 参考值【ragnar_jump】");
+                jumpPointId.setId("jumpPointId");
+                starPane.getItems().add(jumpPointId);
+                //跳跃点名称
+                TextField jumpPointName = new TextField();
+                jumpPointName.setPromptText("请输入跳跃点名称 参考值【Ragnar Jump-point】");
+                jumpPointName.setId("jumpPointName");
+                starPane.getItems().add(jumpPointName);
+                //跳跃点轨道角度
+                TextField jumpPointAngle = new TextField();
+                jumpPointAngle.setPromptText("请输入跳跃点轨道角度 参考值【180】");
+                jumpPointAngle.setId("jumpPointAngle");
+                starPane.getItems().add(jumpPointAngle);
+                //跳跃点轨道半径
+                TextField jumpPointOrbitRadius = new TextField();
+                jumpPointOrbitRadius.setPromptText("请输入跳跃点轨道半径 参考值【2400】");
+                jumpPointOrbitRadius.setId("jumpPointOrbitRadius");
+                starPane.getItems().add(jumpPointOrbitRadius);
+                //跳跃点运行周期
+                TextField jumpPointOrbitDays = new TextField();
+                jumpPointOrbitDays.setPromptText("跳跃点运行周期 参考值【45】");
+                jumpPointOrbitDays.setId("jumpPointOrbitDays");
+                starPane.getItems().add(jumpPointOrbitDays);
+
+
+                //光晕半径
+                TextField extraRadius = new TextField();
+                extraRadius.setPromptText("请输入光晕半径 参考值【150】");
+                extraRadius.setId("extraRadius");
+                starPane.getItems().add(extraRadius);
+                //太阳风等级
+                TextField windBurnLevel = new TextField();
+                windBurnLevel.setPromptText("请输入太阳风等级 参考值【2】");
+                windBurnLevel.setId("windBurnLevel");
+                starPane.getItems().add(windBurnLevel);
+                //耀斑概率
+                TextField flareProbability = new TextField();
+                flareProbability.setPromptText("请输入耀斑概率 参考值【0】");
+                flareProbability.setId("flareProbability");
+                starPane.getItems().add(flareProbability);
+                //CR损失倍率
+                TextField crLossMult = new TextField();
+                crLossMult.setPromptText("请输入CR损失倍率 参考值【1】");
+                crLossMult.setId("crLossMult");
+                starPane.getItems().add(crLossMult);
+
                 //添加星球按钮
                 Button addPlanet = new Button();
                 addPlanet.setText("为主星添加一颗星球");
@@ -171,7 +238,7 @@ public class Controller {
                 bottom.setStyle("-fx-background-color: YELLOW;");
                 starPane.getItems().add(bottom);
                 splitPane.getItems().add(splitPane.getItems().indexOf(addStar),starPane);//splitPane.getItems().indexOf(addStar),
-                Star star = new Star(starPane,top,start,starName,starType,starRadius,starCoronaSize,addPlanet,end,bottom);
+                Star star = new Star(starPane,top,start,starName,starType,starRadius,starCoronaSize,jumpPointOrbitRadius,addPlanet,end,bottom);
                 starList.add(star);
                 starMap.put(addPlanet,star);
                 starPaneList.add(starPane);
@@ -203,7 +270,7 @@ public class Controller {
             planetIndex = star.planetList.size();
         }
         else {
-            star = new Star(firstStar,firstTop,firstStart,starName,starType,starRadius,starCoronaSize,addPlanet,firstEnd,firstBottom);
+            star = new Star(firstStar,firstTop,firstStart,starName,starType,starRadius,starCoronaSize,jumpPointOrbitRadius,addPlanet,firstEnd,firstBottom);
             starList.add(star);
             starMap.put(addPlanet,star);
         }
@@ -892,7 +959,7 @@ public class Controller {
                 return string;
             }
         });
-        gravity.getItems().addAll("","low_gravity@高","high_gravity@低");
+        gravity.getItems().addAll("","low_gravity@低","high_gravity@高");
         //少光
         //public static final String POOR_LIGHT = "poor_light";
         //public static final String DARK = "dark";
@@ -1059,7 +1126,7 @@ public class Controller {
                 return string;
             }
         });
-        farmland.getItems().addAll("","farmland_poor@贫瘠","farmland_adequate@一般","farmland_adequate@富饶","farmland_adequate@超富");
+        farmland.getItems().addAll("","farmland_poor@贫瘠","farmland_adequate@一般","farmland_rich@富饶","farmland_bountiful@超富");
         conditionPane12.getItems().addAll(ore,rare_ore,volatiles,organics,farmland);
         marketPane.getItems().add(conditionPane12);
         //改成多选
@@ -1159,7 +1226,7 @@ public class Controller {
         numAsteroids.setPromptText("请输入陨石数量 参考值【100】");
         numAsteroids.setId("numAsteroids");
         asteroidBeltPane.getItems().add(numAsteroids);
-        //orbitRadius轨道半径
+        //jumpPointOrbitRadius轨道半径
         TextField orbitRadius = new TextField();
         orbitRadius.setPromptText("请输入轨道半径 参考值【2200】");
         orbitRadius.setId("orbitRadius");
@@ -1192,7 +1259,7 @@ public class Controller {
         bottom.setStyle("-fx-background-color: PINK;");
         asteroidBeltPane.getItems().add(bottom);
 
-        AsteroidBelt asteroidBelt = new AsteroidBelt(asteroidBeltPane,top,start,numAsteroids,orbitRadius,width,minOrbitDays,maxOrbitDays,optionalName,end,bottom);
+        AsteroidBelt asteroidBelt = new AsteroidBelt(asteroidBeltPane,top,start,numAsteroids,jumpPointOrbitRadius,width,minOrbitDays,maxOrbitDays,optionalName,end,bottom);
         asteroidBeltList.add(asteroidBeltPane);
         splitPane.getItems().add(splitPane.getItems().indexOf(addAsteroidBelt),asteroidBeltPane);
         
@@ -1400,6 +1467,11 @@ public class Controller {
         typeList.add(SENSOR_GHOST+"@传感器主机");
         type.getItems().addAll(typeList);
         customEntityPane.getItems().add(type);
+        //遗弃舰装配ID
+        TextField variantId = new TextField();
+        variantId.setPromptText("请输入遗弃舰装配ID 参考值【可不填】");
+        variantId.setId("variantId");
+        customEntityPane.getItems().add(variantId);
         //factionId势力
         TextField factionId = new TextField();
         factionId.setPromptText("请输入势力ID 参考值【neutral】中立");
@@ -1415,9 +1487,9 @@ public class Controller {
         angle.setPromptText("请输入角度 参考值【30】");
         angle.setId("angle");
         customEntityPane.getItems().add(angle);
-        //orbitRadius轨道半径
+        //orbitRadius轨道天数
         TextField orbitRadius = new TextField();
-        orbitRadius.setPromptText("请输入轨道半径 参考值【100】");
+        orbitRadius.setPromptText("请输入轨道半径 参考值【200】");
         orbitRadius.setId("orbitRadius");
         customEntityPane.getItems().add(orbitRadius);
         //orbitDays轨道天数
@@ -1433,7 +1505,7 @@ public class Controller {
         bottom.setStyle("-fx-background-color: PURPLE;");
         customEntityPane.getItems().add(bottom);
 
-        CustomEntity customEntity = new CustomEntity(customEntityPane,top,start,id,name,type,factionId,focus,angle,orbitRadius,orbitDays,end,bottom);
+        CustomEntity customEntity = new CustomEntity(customEntityPane,top,start,id,name,type,factionId,focus,angle,jumpPointOrbitRadius,orbitDays,end,bottom);
         customEntitytList.add(customEntityPane);
         splitPane.getItems().add(splitPane.getItems().indexOf(addCustomEntity),customEntityPane);
         
@@ -1668,11 +1740,12 @@ public class Controller {
         ComboBox starType;
         TextField starRadius;
         TextField starCoronaSize;
+        TextField jumpPointOrbitRadius;
         Button addPlanet;
         Text end;
         Separator bottom;
         List<Planet> planetList = new ArrayList<>();
-        public Star(SplitPane star,Separator top,Text start,TextField starName,ComboBox starType,TextField starRadius,TextField starCoronaSize,Button addPlanet,Text end,Separator bottom){
+        public Star(SplitPane star,Separator top,Text start,TextField starName,ComboBox starType,TextField starRadius,TextField starCoronaSize,TextField jumpPointOrbitRadius,Button addPlanet,Text end,Separator bottom){
             this.star=star;
             this.top=top;
             this.start=start;
@@ -1680,6 +1753,7 @@ public class Controller {
             this.starType=starType;
             this.starRadius=starRadius;
             this.starCoronaSize=starCoronaSize;
+            this.jumpPointOrbitRadius=jumpPointOrbitRadius;
             this.addPlanet=addPlanet;
             this.end=end;
             this.bottom=bottom;
@@ -1763,8 +1837,8 @@ public class Controller {
         Text start;
         //numAsteroids陨石数量
         TextField numAsteroids;
-        //orbitRadius轨道半径
-        TextField orbitRadius;
+        //jumpPointOrbitRadius轨道半径
+        TextField jumpPointOrbitRadius;
         //width宽度
         TextField width;
         //minOrbitDays最小轨道天数
@@ -1775,12 +1849,12 @@ public class Controller {
         TextField optionalName;
         Text end;
         Separator bottom;
-        public AsteroidBelt(SplitPane asteroidBelt,Separator top,Text start,TextField numAsteroids,TextField orbitRadius,TextField width,TextField minOrbitDays,TextField maxOrbitDays,TextField optionalName,Text end,Separator bottom){
+        public AsteroidBelt(SplitPane asteroidBelt,Separator top,Text start,TextField numAsteroids,TextField jumpPointOrbitRadius,TextField width,TextField minOrbitDays,TextField maxOrbitDays,TextField optionalName,Text end,Separator bottom){
             this.asteroidBelt=asteroidBelt;
             this.top=top;
             this.start=start;
             this.numAsteroids=numAsteroids;
-            this.orbitRadius=orbitRadius;
+            this.jumpPointOrbitRadius=jumpPointOrbitRadius;
             this.width=width;
             this.minOrbitDays=minOrbitDays;
             this.maxOrbitDays=maxOrbitDays;
@@ -1833,13 +1907,13 @@ public class Controller {
         TextField focus;
         //angle角度
         TextField angle;
-        //orbitRadius轨道半径
-        TextField orbitRadius;
+        //jumpPointOrbitRadius轨道半径
+        TextField jumpPointOrbitRadius;
         //orbitDays轨道天数
         TextField orbitDays;
         Text end;
         Separator bottom;
-        public CustomEntity(SplitPane customEntity,Separator top,Text start,TextField id,TextField name,ComboBox type,TextField factionId,TextField focus,TextField angle,TextField orbitRadius,TextField orbitDays,Text end,Separator bottom){
+        public CustomEntity(SplitPane customEntity,Separator top,Text start,TextField id,TextField name,ComboBox type,TextField factionId,TextField focus,TextField angle,TextField jumpPointOrbitRadius,TextField orbitDays,Text end,Separator bottom){
             this.customEntity=customEntity;
             this.top=top;
             this.start=start;
@@ -1849,7 +1923,7 @@ public class Controller {
             this.factionId=factionId;
             this.focus=focus;
             this.angle=angle;
-            this.orbitRadius=orbitRadius;
+            this.jumpPointOrbitRadius=jumpPointOrbitRadius;
             this.orbitDays=orbitDays;
             this.end=end;
             this.bottom=bottom;
@@ -1879,6 +1953,28 @@ public class Controller {
             public String toString(String object) {
                 // 当选择框展开时显示的默认文本
                 return starType.getPromptText()+":"+object;
+            }
+
+            @Override
+            public String fromString(String string) {
+                // 选择一个选项后，选择框内显示的文本
+                return string;
+            }
+        });
+        starSystemType.getItems().addAll(
+                "SINGLE@单星系",
+                "BINARY_CLOSE@双星",
+                "BINARY_FAR@双星远",
+                "TRINARY_2CLOSE@三体",
+                "TRINARY_1CLOSE_1FAR@三星双子一远",
+                "TRINARY_2FAR@三星远",
+                "NEBULA@星云"
+        );
+        starSystemType.setConverter(new StringConverter<String>() {
+            @Override
+            public String toString(String object) {
+                // 当选择框展开时显示的默认文本
+                return starSystemType.getPromptText()+":"+object;
             }
 
             @Override
@@ -1925,7 +2021,7 @@ public class Controller {
         }
         starPaneList.clear();
         starPaneList.add(firstStar);
-        Star star = new Star(firstStar,firstTop,firstStart,starName,starType,starRadius,starCoronaSize,firstAddPlanet,firstEnd,firstBottom);
+        Star star = new Star(firstStar,firstTop,firstStart,starName,starType,starRadius,starCoronaSize,jumpPointOrbitRadius,firstAddPlanet,firstEnd,firstBottom);
         starList.add(star);
         starMap.put(firstAddPlanet,star);
         planetPaneList.clear();
